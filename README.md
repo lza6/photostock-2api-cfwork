@@ -29,31 +29,31 @@
 
 ```mermaid
 graph TB
-    subgraph "Client Ecosystem"
-        A[Cherry Studio] -->|API Call| B
-        C[NextChat] -->|API Call| B
-        D[ComfyUI] -->|API Call| B
-        E[Other Apps] -->|API Call| B
+    subgraph ClientEcosystem[客户端生态体系]
+        A[Cherry Studio] -->|API 调用| B
+        C[NextChat] -->|API 调用| B
+        D[ComfyUI] -->|API 调用| B
+        E[其他应用] -->|API 调用| B
     end
 
-    subgraph "🚀 photostock-2api Proxy Layer"
+    subgraph ProxyLayer[🚀 photostock-2api 代理层]
         B[Cloudflare Worker]
         
-        subgraph "API Routes"
-            F[/v1/chat/completions] --> G[Dynamic URL Generator]
-            H[/v1/images/generations] --> I[Base64 Response]
-            J[/v1/view] --> K[Real-time Image Render]
+        subgraph APIRoutes[API 路由]
+            F[v1/chat/completions] --> G[动态URL生成器]
+            H[v1/images/generations] --> I[Base64 响应]
+            J[v1/view] --> K[实时图像渲染]
         end
         
-        subgraph "Core Engine"
-            L[Session Manager] --> M[CSRF Token Handler]
-            M --> N[Cookie Manager]
-            O[Image Generator] --> P[Base64 Decoder]
+        subgraph CoreEngine[核心引擎]
+            L[会话管理器] --> M[CSRF令牌处理器]
+            M --> N[Cookie管理器]
+            O[图像生成器] --> P[Base64 解码器]
         end
     end
 
-    subgraph "🌐 Upstream Service"
-        Q[photostockeditor.com] --> R[AI Painting Engine]
+    subgraph UpstreamService[🌐 上游服务]
+        Q[photostockeditor.com] --> R[AI绘画引擎]
     end
 
     G --> J
