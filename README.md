@@ -29,31 +29,31 @@
 
 ```mermaid
 graph TB
-    subgraph "客户端生态"
-        A[Cherry Studio] -->|API调用| B
-        C[NextChat] -->|API调用| B
-        D[ComfyUI] -->|API调用| B
-        E[其他应用] -->|API调用| B
+    subgraph "Client Ecosystem"
+        A[Cherry Studio] -->|API Call| B
+        C[NextChat] -->|API Call| B
+        D[ComfyUI] -->|API Call| B
+        E[Other Apps] -->|API Call| B
     end
 
-    subgraph "🚀 photostock-2api 代理层"
+    subgraph "🚀 photostock-2api Proxy Layer"
         B[Cloudflare Worker]
         
-        subgraph "API 路由"
-            F[/v1/chat/completions] --> G[动态URL生成]
-            H[/v1/images/generations] --> I[Base64响应]
-            J[/v1/view] --> K[实时图片渲染]
+        subgraph "API Routes"
+            F[/v1/chat/completions] --> G[Dynamic URL Generator]
+            H[/v1/images/generations] --> I[Base64 Response]
+            J[/v1/view] --> K[Real-time Image Render]
         end
         
-        subgraph "核心引擎"
-            L[会话管理器] --> M[CSRF Token处理]
-            M --> N[Cookie管理]
-            O[图片生成器] --> P[Base64解码]
+        subgraph "Core Engine"
+            L[Session Manager] --> M[CSRF Token Handler]
+            M --> N[Cookie Manager]
+            O[Image Generator] --> P[Base64 Decoder]
         end
     end
 
-    subgraph "🌐 上游服务"
-        Q[photostockeditor.com] --> R[AI绘画引擎]
+    subgraph "🌐 Upstream Service"
+        Q[photostockeditor.com] --> R[AI Painting Engine]
     end
 
     G --> J
@@ -65,6 +65,27 @@ graph TB
     style J fill:#4ecdc4,stroke:#fff
     style G fill:#45b7d1,stroke:#fff
 ```
+
+### 架构组件说明
+
+| 组件 | 功能描述 | 技术实现 |
+|:---|:---|:---|
+| **Client Ecosystem** | 各种AI客户端应用 | Cherry Studio, NextChat, ComfyUI等 |
+| **Cloudflare Worker** | 核心代理服务器 | 无服务器运行环境 |
+| **Dynamic URL Generator** | 生成代理图片URL | Base64编码 + URL构造 |
+| **Real-time Image Render** | 动态图片渲染器 | Base64转二进制流 |
+| **Session Manager** | 会话状态管理 | Cookie + CSRF Token处理 |
+| **Image Generator** | 图片生成引擎 | 上游API调用 + 数据解析 |
+
+### 数据流向
+
+1. **请求入口** → 客户端发起API调用到Worker
+2. **路由分发** → 根据路径分发到不同处理模块  
+3. **会话建立** → 获取上游网站的认证信息
+4. **图片生成** → 调用上游AI绘画服务
+5. **格式转换** → Base64数据转二进制流
+6. **响应返回** → 返回客户端可识别的图片格式
+
 
 ## 🚀 快速开始
 
